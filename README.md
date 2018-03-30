@@ -1,1 +1,1 @@
-This project uses Python 2.7
+This project uses Python 3
