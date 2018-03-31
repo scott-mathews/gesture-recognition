@@ -1,1 +1,10 @@
-This project uses Python 3
+This project has some dependencies, listed here:
+
+Python 3:
+    Tensorflow
+    Keras
+    Matplotlib
+    Pydot
+
+Other:
+    Graphviz
