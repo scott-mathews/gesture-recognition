@@ -1,10 +1,21 @@
-This project has some dependencies, listed here:
+#Indiana University - CSCI B657 Computer Vision - Final Project
 
-Python 3:
-    Tensorflow
-    Keras
-    Matplotlib
-    Pydot
+Hand Gesture Detection - With Applications to American Sign Language Letter Recognition
+---------------------------------------------------------------------------------------
 
-Other:
-    Graphviz
+
+> "Computer vision is just a bunch of hacks..."
+> - David Crandall, Ph.D.
+
+In this project, we present our series of hacks for identifying ASL letters from a live video feed. The method can be generalized to recognize any hand gesture.
+
+## Dependencies
+###Python 3:
+ -  Tensorflow
+ -  Keras
+ -  Matplotlib
+ -  Pydot
+
+###Other:
+ -  Graphviz
+ -  OpenCV
