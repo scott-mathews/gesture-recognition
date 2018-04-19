@@ -10,7 +10,7 @@ model = load_model('../models/asl_model.h5')
 vid = feed(size=28)
 
 # J is not in ASL alphabet, but inexplicably is included as a label
-letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', '?']
+letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
 for frame in vid:
     begin = time.time()
@@ -24,7 +24,7 @@ for frame in vid:
     pred = model.predict(frame)
 
     end = time.time()
-    print('took ' + str(end - begin) + 'to load and evaluate frame')
+    print('took ' + str(end - begin) + ' seconds to load and evaluate frame')
 
     chosen_index = np.argmax(pred[0])
 
