@@ -20,7 +20,7 @@ import numpy as np
 
 batch_size = 128
 num_classes = 25
-epochs = 10
+epochs = 3
 
 # input image dimensions
 img_rows, img_cols = 28, 28
@@ -74,9 +74,13 @@ model.add(Conv2D(32, kernel_size=(3, 3),
                      input_shape=input_shape))
 model.add(Conv2D(64, (3, 3), activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Conv2D(32, (3, 3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(5, 5)))
 model.add(Dropout(0.25))
 model.add(Flatten())
 model.add(Dense(128, activation='relu'))
+#  model.add(Dense(98, activation='relu'))
+#  model.add(Dense(52, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(num_classes, activation='softmax'))
 #  plot_model(model, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
@@ -94,7 +98,7 @@ score = model.evaluate(x_test, y_test, verbose=0)
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
 
-model.save('../models/asl_model.h5')
+model.save('../models/asl_model_2.h5')
 
 #  plt.plot(history.history['acc'])
 #  plt.plot(history.history['val_acc'])

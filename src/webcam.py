@@ -5,6 +5,7 @@ import cv2
 
 
 def feed(size=28):
+    ''' generates a feed from webcam 0 using opencv, yields two images '''
     cap = cv2.VideoCapture(0)
 
     while True:
@@ -22,7 +23,7 @@ def feed(size=28):
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
-        yield small
+        yield frame, small
 
         #  cv2.imshow('frame', small)
 
