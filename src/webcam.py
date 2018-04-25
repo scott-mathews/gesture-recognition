@@ -20,8 +20,8 @@ def feed(size=28):
  
         small = cv2.resize(gray, (int(newX), int(newY)))
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+        #  if cv2.waitKey(1) & 0xFF == ord('q'):
+            #  break
 
         yield frame, small
 
