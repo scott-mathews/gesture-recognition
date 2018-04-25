@@ -7,7 +7,7 @@ from operator import itemgetter
 
 from webcam import feed
 
-model = load_model('../models/asl_model_alt_2.h5')
+model = load_model('../models/asl_model_alt_3.h5')
 
 vid = feed(size=28)
 

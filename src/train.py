@@ -107,7 +107,7 @@ score = model.evaluate(x_test, y_test, verbose=0)
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
 
-model.save('../models/asl_model_alt_2.h5')
+model.save('../models/asl_model_alt_3.h5')
 
 #  plt.plot(history.history['acc'])
 #  plt.plot(history.history['val_acc'])
