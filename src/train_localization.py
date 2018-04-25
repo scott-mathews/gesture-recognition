@@ -25,7 +25,22 @@ num_classes = 25
 epochs = 30
 
 # input image dimensions
-img_rows, img_cols = 28, 28
+img_rows, img_cols = 100, 100
+input_shape = (img_rows, img_cols, 1)
+
+model = Sequential()
+model.add(Conv2D(56, kernel_size=(3,3), activation='relu', input_shape = input_shape))
+model.add(Conv2D(56, kernel_size=(3,3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(Flatten())
+model.add(Dense(56, activation='relu'))
+model.add(BatchNormalization())
+model.add(Dense(28, activation='relu'))
+model.add(Dense(2, activation='softmax'))
+
+plot_model(model, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
+
+
 
 ## LOAD DATA ##
 #  data_dir = '/mnt/c/Users/Scott/classes/b657/project/data/small/'
@@ -47,7 +62,6 @@ test = np.loadtxt(open(data_dir + 'sign_mnist_test.csv'), delimiter=',', skiprow
 x_test = test[:,1:]
 y_test = test[:,0]
 x_test = x_test.reshape(x_test.shape[0], img_rows, img_cols, 1)
-input_shape = (img_rows, img_cols, 1)
 
 x_train = x_train.astype('float32')
 x_test = x_test.astype('float32')
@@ -77,22 +91,6 @@ y_test = keras.utils.to_categorical(y_test, num_classes)
 #  model.add(Dense(52, activation='relu'))
 #  model.add(Dropout(0.5))
 #  model.add(Dense(num_classes, activation='softmax'))
-
-model = Sequential()
-model.add(Conv2D(28, kernel_size=(3,3), activation='relu', input_shape=input_shape))
-model.add(Conv2D(28, kernel_size=(3,3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(3,3)))
-model.add(Conv2D(28, kernel_size=(3,3), activation='relu'))
-model.add(Conv2D(28, kernel_size=(3,3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2,2)))
-model.add(Flatten())
-model.add(Dense(56, activation='relu'))
-model.add(BatchNormalization())
-model.add(Dense(28, activation='relu'))
-model.add(Dense(28, activation='relu'))
-model.add(Dense(num_classes, activation='softmax'))
-
-plot_model(model, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
 
 model.compile(loss=keras.losses.categorical_crossentropy,
                       #  optimizer=keras.optimizers.Adadelta(),

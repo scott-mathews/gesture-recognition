@@ -2,8 +2,7 @@ from keras.models import load_model
 import numpy as np
 import time
 import cv2
-import heapq
-from operator import itemgetter
+from collections import Counter
 
 from webcam import feed
 
@@ -14,8 +13,10 @@ vid = feed(size=28)
 # J is not in ASL alphabet, but inexplicably is included as a label
 letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
+history = []
+
 for bigframe, frame in vid:
-    #  begin = time.time()
+    begin = time.time()
 
     #  font = cv2.FONT_HERSHEY_SIMPLEX
     # invert image - seems to make things worse
@@ -43,17 +44,16 @@ for bigframe, frame in vid:
     chosen_letter = letters[int(chosen_index%25)]
     text = chosen_letter
 
-    #  end = time.time()
-    #  print('took ' + str(end - begin) + ' seconds to load and evaluate frame')
+    history.append(text)
 
-    #  if sum(pred[0]) > 1:
-        #  text = 'No letter'
-    #  else:
-    #  chosen_index = np.argmax(pred[0])
-    #  chosen_letter = letters[int(chosen_index)]
-    #  text = chosen_letter
+    if len(history) > 10:
+        data = Counter(history[-10:-1])
+        text = data.most_common(1)[0][0]
 
-    cv2.putText(bigframe, text, (40, 40), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), lineType=cv2.LINE_AA)
+    end = time.time()
+    print('Took ' + str(end - begin) + 's')
+
+    cv2.putText(bigframe, text, (40, 40), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0), lineType=cv2.LINE_AA)
     cv2.imshow('frame', bigframe)
     val = cv2.waitKey(1)
     if val & 0xFF == ord('q'):
