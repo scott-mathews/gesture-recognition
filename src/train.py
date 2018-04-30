@@ -1,8 +1,8 @@
-'''Trains a simple convnet on the MNIST dataset.
+'''
+Trains Hand Gesture Recognition Model
 
-Gets to 99.25% test accuracy after 12 epochs
-(there is still a lot of margin for parameter tuning).
-16 seconds per epoch on a GRID K520 GPU.
+This file modified (significantly) from the file here:
+    https://github.com/keras-team/keras/blob/master/examples/mnist_cnn.py
 '''
 
 from __future__ import print_function
@@ -60,23 +60,6 @@ print(x_test.shape[0], 'test samples')
 # convert class vectors to binary class matrices
 y_train = keras.utils.to_categorical(y_train, num_classes)
 y_test = keras.utils.to_categorical(y_test, num_classes)
-
-# ORIGINAL MODEL
-#  model = Sequential()
-#  model.add(Conv2D(32, kernel_size=(5, 5),
-                     #  activation='relu',
-                     #  input_shape=input_shape))
-#  model.add(Conv2D(64, (3, 3), activation='relu'))
-#  model.add(MaxPooling2D(pool_size=(2, 2)))
-#  model.add(Conv2D(32, (3, 3), activation='relu'))
-#  model.add(MaxPooling2D(pool_size=(2, 2)))
-#  model.add(Dropout(0.25))
-#  model.add(Flatten())
-#  model.add(Dense(128, activation='relu'))
-#  model.add(Dense(98, activation='relu'))
-#  model.add(Dense(52, activation='relu'))
-#  model.add(Dropout(0.5))
-#  model.add(Dense(num_classes, activation='softmax'))
 
 model = Sequential()
 model.add(Conv2D(28, kernel_size=(3,3), activation='relu', input_shape=input_shape))
