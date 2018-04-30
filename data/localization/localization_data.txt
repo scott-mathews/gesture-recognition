@@ -1,5 +1,0 @@
-Due to the large size of the dataset, we have not included it with our final project. The dataset was obtained from
-
-http://www.robots.ox.ac.uk/~vgg/data/hands/
-
-And modified into a set of 100x100 (and 28x28) images with binary labels, with positive labels indicating the proportion of hand in that image was greater than a threshold of 0.1
