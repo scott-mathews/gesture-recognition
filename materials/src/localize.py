@@ -7,7 +7,7 @@ import cv2
 class Localizer:
     ''' use to localize objects in images '''
 
-    def __init__(self, model_file='../models/localization_model_2.h5'):
+    def __init__(self, model_file='../models/localization/localization_model_100.h5'):
         self.model = load_model(model_file)
         self.indices = None
 

@@ -9,7 +9,7 @@ from localize import Localizer
 
 localizer = Localizer()
 
-model = load_model('../models/asl_model_alt_3.h5')
+model = load_model('../models/gestures/asl_model_alt_3.h5')
 
 vid = feed(size=28)
 

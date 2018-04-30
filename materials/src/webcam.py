@@ -6,7 +6,7 @@ import cv2
 
 def feed(size=28):
     ''' generates a feed from webcam 0 using opencv, yields two images '''
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
 
     while True:
 
