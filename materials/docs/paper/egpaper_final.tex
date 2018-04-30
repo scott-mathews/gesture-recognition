@@ -27,10 +27,10 @@
 %%%%%%%%% TITLE
 \title{Real Time Detection of Hand Gestures for Interface Extension Using Convolutional Neural Networks}
 
-\author{Satendra Varma\\
+\author{Scott Mathews\\
 Indiana University\\
 Bloomington, Indiana\\
-{\tt\small satvarma@iu.edu}
+{\tt\small scomathe@iu.edu}
 % For a paper whose authors are all at the same institution,
 % omit the following lines up until the closing ``}''.
 % Additional authors and addresses can be added with ``\and'',
@@ -40,8 +40,8 @@ Bloomington, Indiana\\
 Shyam Narasimhan\\
 {\tt\small shynaras@iu.edu}
 \and
-Scott Mathews\\
-{\tt\small scomathe@iu.edu}\\
+Satendra Varma\\
+{\tt\small satvarma@iu.edu}\\
 }
 
 \maketitle
@@ -61,87 +61,62 @@ The space of voice assistants exploded recently with the advent of products from
 
 Devices with built-in cameras would be able to utilize this interface by having an always-on camera, which performs actions on the system in response to certain visual inputs from the camera. One such visual input might be hand gestures. For example, a certain gesture might tell the camera to start taking commands, serving the same purpose as an activation phrase in current voice assistants. Following this ``activation gesture" a series of additional gestures might be performed to indicate a command.
 
+An interface similar to this one is explored in the paper by Haria et al. \cite{Haria17} In their interface, hand gestures give commands to the system directly. Specifically, they use the system to iterate through slides of a PowerPoint presentation.
+
 Another intriguing use case for the hand-gesture based interface is with American Sign Language recognition. This interface could allow for text input using a purely visual interface, making use of the American Sign Language alphabet.
 
 In order to facilitate these use cases, it is necessary for the algorithm powering the visual recognition to be lightweight enough to run in the background on low powered devices such as laptops and phones, while still providing enough performance to be useful.
 
-Our goal in this project is to present a model for an efficient real time detection of hand gestures. Our results indicate that such interfaces are viable, given the proper performance minded setup.
+Our goal in this project is to present a model for an efficient real time detection of hand gestures. Our results indicate that such interfaces are viable, given an appropriate performance conscious setup.
 
 %-------------------------------------------------------------------------
 
 %------------------------------------------------------------------------
 \section{Background and Related Work}
 
-There is 
+There has been previous work on the subject of real time hand gesture recognition. In the work of Chen et al. \cite{Chen14} a method utilizing segmentation of fingers was presented. In Xu's work \cite{Xu17} a method utilizing Kalman filters to preprocess images, followed by a convolutional neural network for recognition was employed. 
 
 %-------------------------------------------------------------------------
 \section{Methods}
+
+We have seen multiple applications of gesture recognition in the past ,using depth sensors or simple images frame by frame. In the case of frame by frame gesture recognition, there are many systems which work when there is only a hand in the image frame. Our gesture recognition system uses a video feed as input, and learns to distinguish between gestures even when there are other objects in the frame such as faces or bodies.
+
+We initially classified data from the ``Sign Language MNIST" dataset using a custom deep convolutional neural network, and were able to achieve 98\% accuracy.
+
+Next, we tried using the VGG-16 architecture to classify any given frame into the three gesture categories. We applied transfer learning, and added 2 layers before the output layer. The output layer (after softmax activation) consisted of three neurons corresponding to gesture 1, gesture 2, and no gesture. The maximum node was thresholded at 0.4, after which it was classified as that gesture, otherwise classified as no gesture.
+
+We achieved 95\% accuracy in classification, and the gesture recognition transferred well into real world usage, however it was not running in real time, since it took a long time for the network to preprocess the images and pass them through so many layers.
+
+\subsection{Gesture Classification}
+
+Finally, we converged on a custom smaller architecture, using a convolutional neural network. We built a dataset of each gesture, as well as no gesture frames, and achieved 87\% accuracy in training and 68\% accuracy in real classification, while classifying frames in real time.
+
+\subsection{Adding Localization}
+
+We used hand localization methods to detect and localize hand in the video frames, and crop out the rest of the image. We pass this cropped picture in the network which recognizes the different gestures.
+
+Our method for localization involved dividing the input image into 100x100 blocks, and running a custom convolutional neural network to recognize if a given block had a hand in it. Blocks with hands recognized inside were then resized and passed to the gesture classification network.
+
+Our method achieved 92\% accuracy in localizing the hand in specific lighting conditions, and 90\% in recognizing the gesture.
+
+\subsection{Future Work}
+
+In the future, we plan to use more advanced methods for hand localization, such as Mask RCNN or YOLO v2. We also plan to improve the quantity and diversity of our training data.
+
+
 %-------------------------------------------------------------------------
 \section{Results}
+
+\subsection{Accuracy}
+
+We achieved in accuracy of 98\% training our model on the augmented ``sign language mnist" data. In real world scenarios, we found the model sensitive to lighting conditions. It worked best in the lighting of an enclosed room, and poorly in natural light or large rooms, such as in Luddy Hall. More discussion of classification results. Graphic of training.
+
+We achieved an accuracy of 92\% while training the model for hand detection. Due to the imbalanced nature of the dataset, this accuracy was actually quite bad (bordering on the performance of a trivial classifier). In practice, we found that the network would always output the negative class, as that was by far the more commonly occurring class. Nevertheless, the network would report a spike in probability for having recognized a hand when a hand was in the frame. To remedy this, we changed the prediction from a simple choice of higher probability, to a much lower threshold, around 7\% confidence for there being a hand. This resulted in acceptable results for hand recognition tasks. More discussion of detection results. Graphic of training.
+
 %-------------------------------------------------------------------------
 \section{Conclusion}
-%-------------------------------------------------------------------------
-\section{References}
 
-List and number all bibliographical references in 9-point Times,
-single-spaced, at the end of your paper. When referenced in the text,
-enclose the citation number in square brackets, for
-example~\cite{Authors14}.  Where appropriate, include the name(s) of
-editors of referenced books.
-
-\begin{table}
-\begin{center}
-\begin{tabular}{|l|c|}
-\hline
-Method & Frobnability \\
-\hline\hline
-Theirs & Frumpy \\
-Yours & Frobbly \\
-Ours & Makes one's heart Frob\\
-\hline
-\end{tabular}
-\end{center}
-\caption{Results.   Ours is better.}
-\end{table}
-
-%-------------------------------------------------------------------------
-\subsection{Illustrations, graphs, and photographs}
-
-All graphics should be centered.  Please ensure that any point you wish to
-make is resolvable in a printed copy of the paper.  Resize fonts in figures
-to match the font in the body text, and choose line widths which render
-effectively in print.  Many readers (and reviewers), even of an electronic
-copy, will choose to print your paper in order to read it.  You cannot
-insist that they do otherwise, and therefore must not assume that they can
-zoom in to see tiny details on a graphic.
-
-When placing figures in \LaTeX, it's almost always best to use
-\verb+\includegraphics+, and to specify the  figure width as a multiple of
-the line width as in the example below
-{\small\begin{verbatim}
-   \usepackage[dvips]{graphicx} ...
-   \includegraphics[width=0.8\linewidth]
-                   {myfile.eps}
-\end{verbatim}
-}
-
-
-%-------------------------------------------------------------------------
-\subsection{Color}
-
-Please refer to the author guidelines on the CVPR 2018 web page for a discussion
-of the use of color in your document.
-
-%------------------------------------------------------------------------
-\section{Final copy}
-
-You must include your signed IEEE copyright release form when you submit
-your finished paper. We MUST have this form before your paper can be
-published in the proceedings.
-
-Please direct any questions to the production editor in charge of these
-proceedings at the IEEE Computer Society Press: Phone (714) 821-8380, or
-Fax (714) 761-1784.
+By applying a simple 2 stage process, we were able to perform quite well in hand gesture recognition. Our work is 
 
 {\small
 \bibliographystyle{ieee}
